@@ -16,9 +16,10 @@ export default defineConfig({
       {
         text: 'Data Structures and Algorithms',
         items: [
-          { text: 'Arrays as Hashmaps', link: '/dsa/arrays-as-hashmaps' },
           { text: 'Binary Search', link: '/dsa/binary-search' },
           { text: 'Dynamic Programming', link: '/dsa/dynamic-programming' },
+          { text: 'Heaps', link: '/dsa/heaps' },
+          { text: 'Arrays as Hashmaps', link: '/dsa/arrays-as-hashmaps' },
           { text: 'Prefix Aggregate Hashmap', link: '/dsa/prefix-aggregate-hashmap' },
         ]
       }
