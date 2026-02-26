@@ -4,7 +4,7 @@ A Disjoint Set Union is used to track connected components in an undirected grap
 
 A Disjoint Set Union only needs to implement two methods - `Union` and `Find`. This this data structure is sometimes called "Union Find".
 
-# Data Structure
+## Data Structure
 
 Each set is effectively a tree with its representative as the root. For numbered vertices we can use a parent[] array for storage. The array contains n integers, where n is the number of vertices, and `parent[i]` simply contains the parent of vertex `i`. If vertex `i` is a root, `parent[i] == i`.
 
@@ -28,7 +28,7 @@ Sets can be stored in a variety of trees from tall to short.
 1   2   3   4
 ```
 
-# Find
+## Find
 
 Find simply returns the root of the set that contains a given vertex. A simple implementation repeatedly follows parent pointers until it reaches a vertex whose parent is itself. This can be `O(n)` in the worst case where every vertex is contained in one tall tree. We can improve this by applying path compression. Path compression simply makes every node visited during Find point directly to the root. So in the above example, the first tree would be compressed to the second tree after running `Find(4)`.
 
@@ -44,7 +44,7 @@ public int Find(int x)
 }
 ```
 
-# Union
+## Union
 
 The Union method takes two disjoint sets and merges them into a single set. After performing `Union(S1, S2)`, both sets will share the same representative (root). This can implemented by simply picking one set and setting the parent of its root to the root of the other set. This presents one complication however...
 
