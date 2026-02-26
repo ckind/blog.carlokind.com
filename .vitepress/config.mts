@@ -17,8 +17,9 @@ export default defineConfig({
         text: 'Data Structures and Algorithms',
         items: [
           { text: 'Binary Search', link: '/dsa/binary-search' },
-          { text: 'Dynamic Programming', link: '/dsa/dynamic-programming' },
+          { text: 'Disjoint Set Union', link: '/dsa/dsu' },
           { text: 'Heaps', link: '/dsa/heaps' },
+          { text: 'Dynamic Programming', link: '/dsa/dynamic-programming' },
           { text: 'Arrays as Hashmaps', link: '/dsa/arrays-as-hashmaps' },
           { text: 'Prefix Aggregate Hashmap', link: '/dsa/prefix-aggregate-hashmap' },
         ]
