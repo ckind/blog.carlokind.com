@@ -2,7 +2,7 @@
 
 A Disjoint Set Union is used to track connected components in an undirected graph (or to maintain dynamic connectivity under edge additions), and to test whether adding an edge would connect two already-connected vertices (cycle detection). The idea is relatively simple. A set of vertices is partitioned into multiple disjoint sets, where each set represents a connected component, meaning all vertices within the same set are connected (directly or indirectly), and vertices in different sets are not connected. Each set has one vertex artbitrarilly chosen as a "representative" or "root" for that set. If two vertices have the same root then they belong to the same set, and are therefore connected.
 
-A Disjoint Set Union only needs to implement two methods - `Union` and `Find`. This this data structure is sometimes called "Union Find".
+A Disjoint Set Union only needs to implement two methods - `Union` and `Find`. This this data structure is sometimes called "Union Find". When properly implemented, both `Union` and `Find` are effectively `O(1)` in practice.
 
 ## Data Structure
 
@@ -50,7 +50,7 @@ The Union method takes two disjoint sets and merges them into a single set. Afte
 
 Our goal is to keep our trees as short as possible. When union-ing two sets in this manner the tree can naturally grow taller. Balancing the entire tree would make Union an expensive operation. So instead of fully balancing the trees, we use a heuristic: when merging two trees, we attach the root of the “smaller” tree to the root of the “larger” tree to keep overall height small. How do we efficiently deduce that? There are two options for tracking <i>approximate</i> tree height - size and rank. We will look at rank first.
 
-Rank is the maximum height we have seen thus far for a given tree root. Rank does not guarantee that the tree is always this height, as it can be compressed during the Find operation. When choosing which root to use as the new root in our Union operation we choose the root with the higher rank, minimizing the impact it has on our new tree's total height. If we attach a smaller tree to the root of larger tree, the overall height is unchanged. If both heights are equal then we height of new tree is increased by 1 (in this case we increase our rank by 1).
+Rank is the maximum height we have seen thus far for a given tree root. Rank does not guarantee that the tree is always this height, as it can be compressed during the Find operation. When choosing which root to use as the new root in our Union operation we choose the root with the higher rank, minimizing the impact it has on our new tree's total height. If we attach a smaller tree to the root of larger tree, the overall height is unchanged. If both heights are equal then the height of the new tree is increased by 1 (in this case we increase our rank by 1).
 
 Remember that rank is just an approximation and not a guarantee of tree height. Calculating a guaranteed tree height would also make union an expensive operation.
 
@@ -86,9 +86,9 @@ Union by size simply compares the total number of vertices in each tree and sums
 
 ## The Magic of Union Find
 
-The reason we can lazily compress paths and heuristically rank tree heights is because these two optimizations work beautifully together. When both optimizations are used, the amortized time per Find or Union operation is O(α(n)), where α(n) is the inverse Ackermann function.
+The reason we can lazily compress paths and heuristically rank tree heights is because these two optimizations work beautifully together. When both optimizations are used, the amortized time per Find or Union operation is `O(α(n))`, where `α(n)` is the inverse Ackermann function.
 
-The inverse Ackermann function grows extraordinarily slowly — so slowly that for any input size encountered in practice, α(n) is less than 5. Therefore, the amortized cost per operation is effectively constant.
+The inverse Ackermann function grows extraordinarily slowly — so slowly that for any input size encountered in practice, `α(n)` is less than 5. Therefore, the amortized cost per operation is effectively constant.
 
 This applies to both Union by rank and Union by size.
 
