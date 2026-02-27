@@ -282,3 +282,70 @@ Prim
 * great with adjacency lists
 * often preferred when you can grow from a start vertex
 * for dense graphs can be very competitive.
+
+
+## Optimal Solution to LC 1584
+
+The optimal solution for [LC 1584](https://leetcode.com/problems/min-cost-to-connect-all-points/description/) actually happens to be a version of Prim implemented with two nested loops as opposed to a heap. The `O(n^2)` nested loops win in the end because for this problem in particular we have to consider connecting each point to every other point. In other words we are dealing with a complete graph with `O(n^2)` edges. Heap implementations win asymptotically on sparse graphs.
+
+Here is a heapless Prim Solution:
+
+```csharp
+public class Solution
+{
+    public int MinCostConnectPoints(int[][] points)
+    {
+        return MinCostConnectPointsPrimHeapless(points);
+    }
+
+    private int GetManhattanDistance(int i, int j, int[][] points)
+    {
+        return Math.Abs(points[i][0] - points[j][0]) + Math.Abs(points[i][1] - points[j][1]);
+    }
+
+    public int MinCostConnectPointsPrimHeapless(int[][] points)
+    {
+        int totalCost = 0;
+        int n = points.Length;
+        int[] minCost = new int[n];
+        bool[] inMST = new bool[n];
+
+        // minCost[i] = cheapest cost to connect i to the current MST
+        // Start with vertex 0 in the MST, so initial minCost is distance to 0.
+        for (int i = 0; i < n; i++)
+            minCost[i] = int.MaxValue;
+
+        minCost[0] = 0;
+
+        for (int iter = 0; iter < n; iter++)
+        {
+            // pick the cheapest point not yet in MST
+            int p = 0;
+            int cost = int.MaxValue;
+            for (int i = 0; i < n; i++)
+            {
+                if (!inMST[i] && minCost[i] < cost)
+                {
+                    cost = minCost[i];
+                    p = i;
+                }
+            }
+
+            // add p to MST
+            inMST[p] = true;
+            totalCost += cost;
+
+            // update min distances to remaining vertices
+            for (int p2 = 0; p2 < n; p2++)
+            {
+                if (inMST[p2])
+                    continue;
+
+                minCost[p2] = Math.Min(minCost[p2], GetManhattanDistance(p, p2, points));
+            }
+        }
+
+        return totalCost;
+    }
+}
+```
